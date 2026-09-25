@@ -185,15 +185,13 @@ label quit_prompt:
         return
     elif persistent.hasleftbf == False:
         $ persistent.saidgoodbye = False
+        
         show oc hb smile hapclosed
         e "Leaving now, are we?"
         show oc nb smile normal
         e "Well, I suppose I'll see you later, then."
         e "I hope you have a good one, [playername]."
-        show chair at furnright
-        show table at furnright
-        show oc nb smile normal at ocright
-        with ease
+        call moveocmenu
         menu:
             "Goodbye, [persistent.ocname].":
                 call movegoback
@@ -206,10 +204,7 @@ label quit_prompt:
         $ persistent.saidgoodbye = False
         show oc nb smile normal
         e "[gbrd]"
-        show chair at furnright
-        show table at furnright
-        show oc nb smile normal at ocright
-        with ease
+        call moveocmenu
         menu:
             "Goodbye, [persistent.ocname].":
                 call movegoback
@@ -223,7 +218,7 @@ label quit_prompt:
                 show oc hb smile hapclosed
                 e "Changed your mind, hm?"
                 e "Well I don't mind a little extra attention~"
-                $ persistent.saidgoodbye = True
+                $ persistent.saidgoodbye = False
                 jump worldidle
 
         $ renpy.pause(0.1, hard=True)
@@ -434,6 +429,8 @@ label newgame:
 screen menuButton:
     imagebutton idle "gui/menubutton.png" xalign 1 yalign 1 action ToggleScreen("menuButton"), Jump("ocmenu")
 
+define topicpool = ["random1", "random2", "random3", "random4"]
+
 label talkoc:
     $ _window_show()
     hide screen headpather
@@ -447,7 +444,7 @@ label talkoc:
             app_icon="",
             timeout="10"
         )
-    $ renpy.jump('random'+str(renpy.random.randint(1,4)))
+    $ renpy.jump((renpy.random.choice(topicpool)))
 
 label idleoc:
     $ _window_hide()
@@ -467,7 +464,6 @@ label idle2:
 
 
 label worldidle:
-    $ checkgift()
     $ affasign()
     $ _window_hide() 
     $ persistent.saidgoodbye = False
@@ -478,6 +474,8 @@ label worldidle:
     show table at left zorder 5
     show oc nb smile normal at center zorder 4
     with ease
+    pause 0.5
+    $ checkgift()
     $ waittime = renpy.random.randint(10, 30)
     $ randomidle = renpy.random.randint(1, 2)
     $ renpy.pause(waittime, hard=True)
@@ -690,7 +688,7 @@ label dis_usoc:
             e "What a pretty name~"
             jump worldidle
         
-        "Let's play!":
+        "Let's play!" if persistent.rpcunlocked is True:
             call movegoback
             show oc nb smile normal
             e "Sound's good to me!"

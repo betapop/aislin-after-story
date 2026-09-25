@@ -149,6 +149,7 @@ layeredimage oc:
         "oc/clothing/uniform/tophat.png"
     elif persistent.hat == "none":
         "oc/clothing/empty.png"
+    
 
 
 image oc_talksmile:

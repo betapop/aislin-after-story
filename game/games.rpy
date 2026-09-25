@@ -18,9 +18,8 @@ default persistent.unlose = 0
 
 label rps_select:
     
-    show screen stats
-    
     if not persistent.cheating:
+        call moveocmenu
         menu:
             
             "Rock":
@@ -36,10 +35,10 @@ label rps_select:
                 $result = renpy.random.choice(['rock', 'paper', 'scissors'])
                 jump results
             "End":
-                hide screen stats
                 jump rpfback
         
     else:
+        call moveocmenu
         menu:
             
             "Rock":
@@ -103,20 +102,20 @@ label results:
             jump tie
 
 label tie:
-    
+    call movegoback
     e "We tied with [result]!"
     $ ties += 1
     jump rps_select
     
 label win:
-    
-    e "[selection] beats [result], you win!"
+    call movegoback
+    e "[selection!c] beats [result], you win!"
     $ score += 1
     jump rps_select
     
 label lose:
-    
-    e "[result] beats [selection], you lost!"
+    call movegoback
+    e "[result!c] beats [selection], you lost!"
     $ computer += 1
     jump rps_select
 
@@ -184,5 +183,6 @@ style cheats_label_text:
 default nolose = ""
 
 label rpfback:
+    call movegoback
     e "No? Fine with me~"
     jump worldidle

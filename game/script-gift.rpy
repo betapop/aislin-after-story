@@ -24,12 +24,22 @@ init python:
             os.remove(config.gamedir + '/gifts/pudding.gift')
             renpy.jump("puddinggift")
         
+define persistent.puddingseen = False
 
 label puddinggift:
     hide screen menuButton
     hide screen headpather
-    show oc nb smile normal
-    e "wowie i love pudding"
+    show oc nb wow bshocked at ugo2
+    if persistent.puddingseen == False:
+        e "Hey! Pudding!"
+        show oc nb smile normal
+        e "Did you get this for me, [playername]?"
+        show oc nb smile hapclosed
+        e "I mean, I'm not complaining~ Thank you!"
+        $ persistent.puddingseen = True
+    else:
+        show oc nb smile hapclosed at ugo2
+        e "Thanks for feeding my pudding addiction~"
     jump worldidle
 
 label pencilgift:

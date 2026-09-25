@@ -57,17 +57,48 @@ label random3:
     $ persistent.affection += 1
     show oc nub frown normal
     e "..."
-    show oc hb frown lookleft
+    show oc ab frown lookleft
     e "... This whole situation is still so... weird."
-    show oc sb frown hapclosed
-    "Not {i}you{/i}, specifically. Just..."
+    show oc ab frown closed
+    e "Not {i}you{/i}, specifically. Just..."
     show oc nub smile hapclosed
-    "It's fine! Let's continue, shall we~"
+    e "It's fine! Let's continue, shall we~"
     jump worldidle
+
+default persistent.rpcunlocked = False
 
 label random4:
     $ persistent.affection += 1
-    show oc sb smile lookleft
+    show oc nb smile hapclosed
+    e "Hey, [playername]! I had an idea!"
+    show oc nb smile lookleft
+    e "Soo..."
+    show oc nb smile lookright
+    extend "You like games, right?"
+    call moveocmenu
+    menu:
+        "Sure?":
+            call movegoback
+            show oc hapclosed
+            e "Great!"
+    show oc nb normal
+    e "I thought we could play rock, paper, sissors if we're bored."
+    show oc hb lookleft
+    e "It's a game I played a lot as a kid, so maybe it'll fill the time?"
+    show oc nb hapclosed
+    e "Regardless, just ask me if you're interested!"
+    $ persistent.rpcunlocked = True
+    jump worldidle
+
+init python:
+    topicpool.append("rando5")
+
+label rando5:
+    $ persistent.affection += 1
+    hide oc 
+    with dissolve
     e "..."
-    e "Estrella..."
+    show oc nb smile hapclosed at center zorder 4
+    with dissolve
+    e "I'm back! Sorry, I went to grab something."
     jump worldidle
